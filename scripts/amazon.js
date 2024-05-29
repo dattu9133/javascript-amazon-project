@@ -57,6 +57,39 @@ products.forEach((product) => {
   `;
 });
 
+function updateCartQuantity(productId, quantity) {
+  let matchingItem;
+
+  document.querySelector(`.added-to-cart-${productId}`).style.opacity = 1;
+
+  let timer = setTimeout(() => {
+    document.querySelector(`.added-to-cart-${productId}`).style.opacity = 0;
+  }, 2000);
+
+  cart.forEach((item) => {
+    if (productId === item.productId) {
+      matchingItem = item;
+    }
+  });
+
+  if (matchingItem) {
+    matchingItem.quantity += quantity || 1;
+  } else {
+    cart.push({
+      productId, quantity
+    });
+  }
+
+  let cartQuantity = 0;
+
+  cart.forEach((item) => {
+    cartQuantity += Number(item.quantity);
+  });
+
+  document.querySelector('.js-cart-quantity')
+    .innerHTML = cartQuantity;
+}
+
 document.querySelector('.js-products-grid').innerHTML = productsHTML;
 
 document.querySelectorAll('.js-add-to-cart')
@@ -65,41 +98,7 @@ document.querySelectorAll('.js-add-to-cart')
       const productId = button.dataset.productId;
       const quantity = parseInt(document.querySelector(`#product-quantity-${button.dataset.productId}`).value) || null
       document.querySelector(`#product-quantity-${button.dataset.productId}`).value = '1'
-      let matchingItem;
-
-      document.querySelector(`.added-to-cart-${productId}`).style.opacity = 1;
-
-      // Use setTimeout to change the opacity to 1 after 100 milliseconds
-      let timer = setTimeout(() => {
-        document.querySelector(`.added-to-cart-${productId}`).style.opacity = 0;
-      }, 2000);
-
-      // document.querySelector(`.added-to-cart-${productId}`).style.opacity = 0;
-
-      cart.forEach((item) => {
-        if (productId === item.productId) {
-          matchingItem = item;
-        }
-      });
-
-      if (matchingItem) {
-        matchingItem.quantity += quantity || 1;
-      } else {
-        cart.push({
-          productId, quantity
-        });
-      }
-
-      let cartQuantity = 0;
-
-      cart.forEach((item) => {
-        cartQuantity += Number(item.quantity);
-      });
-
-      document.querySelector('.js-cart-quantity')
-        .innerHTML = cartQuantity;
-
-      console.log(cart)
+      updateCartQuantity(productId, quantity);
     });
   });
 
