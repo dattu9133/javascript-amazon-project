@@ -1,43 +1,60 @@
-export const cart = [{
-  "productId": "e43638ce-6aa0-4b85-b27f-e1d07eb678c6",
-  "quantity": 3
-}, {
-  "productId": "15b6fc6f-327a-4ec4-896f-486349e85a3d",
-  "quantity": 2
-}
-];
+export let cart = JSON.parse(localStorage.getItem('cart'));
 
-export function updateCartQuantity(productId, quantity) {
+if (!cart) {
+  cart = [{
+    productId: 'e43638ce-6aa0-4b85-b27f-e1d07eb678c6',
+    quantity: 2,
+  }, {
+    productId: '15b6fc6f-327a-4ec4-896f-486349e85a3d',
+    quantity: 1
+  }];
+}
+
+function saveToStorage() {
+  localStorage.setItem('cart', JSON.stringify(cart));
+}
+
+export function addToCart(productId) {
   let matchingItem;
 
-  document.querySelector(`.added-to-cart-${productId}`).style.opacity = 1;
+  document.querySelector(`.added-to-cart-${productId}`).style.opacity = 1
 
-  let timer = setTimeout(() => {
-    document.querySelector(`.added-to-cart-${productId}`).style.opacity = 0;
+  setTimeout(() => {
+    document.querySelector(`.added-to-cart-${productId}`).style.opacity = 0
   }, 2000);
 
-  cart.forEach((item) => {
-    if (productId === item.productId) {
-      matchingItem = item;
+  let quantity = Number(document.querySelector(`#product-quantity-${productId}`).value) || 1
+
+
+  cart.forEach((cartItem) => {
+    if (productId === cartItem.productId) {
+      matchingItem = cartItem;
     }
   });
 
   if (matchingItem) {
-    matchingItem.quantity += quantity || 1;
+    matchingItem.quantity += quantity;
   } else {
     cart.push({
-      productId, quantity
+      productId,
+      quantity
     });
   }
 
-  let cartQuantity = 0;
+  saveToStorage();
+}
 
-  cart.forEach((item) => {
-    cartQuantity += item.quantity;
+export function removeFromCart(productId) {
+  const newCart = [];
+
+  cart.forEach((cartItem) => {
+    if (cartItem.productId !== productId) {
+      newCart.push(cartItem);
+    }
   });
 
-  // console.log(cart)
+  cart = newCart;
+  document.querySelector('.return-to-home-link').innerHTML = `${cart.length} items`
 
-  document.querySelector('.js-cart-quantity')
-    .innerHTML = cartQuantity;
+  saveToStorage();
 }
