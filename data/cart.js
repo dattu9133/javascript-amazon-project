@@ -1,12 +1,11 @@
-export let cart = JSON.parse(localStorage.getItem('cart')) || [{
-  productId: 'e43638ce-6aa0-4b85-b27f-e1d07eb678c6',
-  quantity: 2,
-  deliveryId: 1
-}, {
-  productId: '15b6fc6f-327a-4ec4-896f-486349e85a3d',
-  quantity: 1,
-  deliveryId: 2
-}];;
+export function removeCart() {
+  document.addEventListener('DOMContentLoaded', () => {
+    localStorage.removeItem('cart');
+  }, { once: true });
+}
+
+removeCart()
+export let cart = JSON.parse(localStorage.getItem('cart'));
 
 if (!cart) {
   cart = [{
@@ -20,7 +19,19 @@ if (!cart) {
   }];
 }
 
+export function updateDeliveryId(productId, deliveryId) {
+  let matchingItem;
 
+  // console.log(productId, deliveryId)
+  cart.forEach((cartItem) => {
+    if (productId == cartItem.productId) {
+      matchingItem = cartItem;
+    }
+  });
+  matchingItem.deliveryId = deliveryId
+  saveToStorage()
+  // console.log(cart)
+}
 
 export function updateCartQuantity() {
   let cartQuantity = 0;
