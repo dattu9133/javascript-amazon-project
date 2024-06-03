@@ -5,7 +5,7 @@ import dayjs from 'https://unpkg.com/dayjs@1.11.10/esm/index.js'
 import { deliveryOptions } from '../../data/deliveryOptions.js';
 import { renderPayment } from './paymentSummary.js';
 
-// x()
+
 let cartSummaryHTML = '';
 export function updateCheckOutItems() {
   let checkOutItems = 0
@@ -40,7 +40,7 @@ function deliveryHtml(matchingProduct, cartItem) {
 }
 
 export function renderOrder() {
-  console.log(cart)
+  // console.log(cart)
   updateCheckOutItems()
   cart.forEach((cartItem) => {
     const productId = cartItem.productId;
