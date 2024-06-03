@@ -40,7 +40,6 @@ function deliveryHtml(matchingProduct, cartItem) {
 }
 
 export function renderOrder() {
-  // console.log(cart)
   updateCheckOutItems()
   cart.forEach((cartItem) => {
     const productId = cartItem.productId;
@@ -64,7 +63,7 @@ export function renderOrder() {
             ${matchingProduct.name}
           </div>
           <div class="product-price">
-            $${formatCurrency(matchingProduct.priceCents)}
+            ${matchingProduct.getPrice()}          
           </div>
           <div class="product-quantity">
             <span>
@@ -127,7 +126,6 @@ export function renderOrder() {
         const cartItem = cart.find(item => item.productId === productId);
         if (cartItem) {
           cartItem.quantity = Number(newQuantity);
-          // localStorage.setItem('cart', JSON.stringify(cart));
           saveToStorage(cart)
 
           link.innerHTML =
