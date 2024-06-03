@@ -28,7 +28,7 @@ function deliveryHtml(matchingProduct, cartItem) {
 
     html +=
       `<div class="delivery-option js-delivery-option" data-date='${date}' data-delivery-id='${option.id}' data-product-id='${matchingProduct.id}'">
-        <input type="radio" ${cartItem.deliveryId == option.id ? 'checked' : ''} class="delivery-option-input" name="delivery-option-${matchingProduct.id}">
+        <input type="radio" ${cartItem.deliveryId == option.id ? 'checked' : ''} class="delivery-option-input delivery-option-input-${option.id}-${matchingProduct.id}" name="delivery-option-${matchingProduct.id}">
         <div>
           <div class="delivery-option-date">
             ${date}
@@ -152,6 +152,8 @@ document.querySelectorAll('.update-quantity-link').forEach((link) => {
 document.querySelectorAll('.js-delivery-option').forEach((button) =>
   button.addEventListener('click', () => {
     const { date, deliveryId, productId } = button.dataset
+    const checkbox = document.querySelector(`.delivery-option-input-${deliveryId}-${productId}`)
+    checkbox.checked = true;
     document.querySelector(`.delivery-date-${productId}`).innerHTML = `Delivery date:${date} `
     updateDeliveryId(productId, deliveryId)
   })
