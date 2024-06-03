@@ -1,10 +1,3 @@
-export function removeCart() {
-  document.addEventListener('DOMContentLoaded', () => {
-    localStorage.removeItem('cart');
-  }, { once: true });
-}
-
-removeCart()
 export let cart = JSON.parse(localStorage.getItem('cart'));
 
 if (!cart) {
@@ -19,6 +12,7 @@ if (!cart) {
   }];
 }
 
+
 export function updateDeliveryId(productId, deliveryId) {
   let matchingItem;
 
@@ -29,7 +23,7 @@ export function updateDeliveryId(productId, deliveryId) {
     }
   });
   matchingItem.deliveryId = deliveryId
-  saveToStorage()
+  saveToStorage(cart)
   // console.log(cart)
 }
 
