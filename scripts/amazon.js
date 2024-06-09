@@ -1,8 +1,34 @@
-import { cart, updateCartQuantity, addToCart } from '../data/cart.js';
-import { loadProducts, products } from '../data/products.js';
-import { formatCurrency } from './utils/money.js';
+import { updateCartQuantity, addToCart, loadCartItem } from '../data/cart.js';
+import { loadProductsFetch, products } from '../data/products.js';
+// import { formatCurrency } from './utils/money.js';
 
-loadProducts(loadProductGrid)
+// loadProducts(loadProductGrid)
+
+// Promise.all([
+//   loadProductsFetch(),
+//   new Promise((resolve) => {
+//     loadCartItem(() => {
+//       resolve()
+//     })
+//   })
+// ]).then(() => {
+//   loadProductGrid()
+// })
+
+
+async function loadPage() {
+  // console.log('Loaded Page')
+  await loadProductsFetch();
+  await new Promise((resolve) => {
+    loadCartItem(() => {
+      resolve()
+    })
+  })
+
+  loadProductGrid()
+}
+loadPage()
+
 function loadProductGrid() {
   let productsHTML = '';
   updateCartQuantity()
