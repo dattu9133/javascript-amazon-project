@@ -17,15 +17,6 @@ import { addOrder } from '../data/orders.js';
 // })
 
 function loadPage(fun) {
-  const xhr = new XMLHttpRequest()
-
-  xhr.addEventListener('load', () => {
-    console.log(xhr.response)
-  })
-
-  xhr.open('GET', 'https://supersimplebackend.dev/hello')
-  xhr.send()
-
   fun()
 }
 
